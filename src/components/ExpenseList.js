@@ -25,11 +25,11 @@ const ExpenseList = ({ expenses }) => {
       <div className="row">
         <div className="col">
           {expenses.length > 0 && (
-            <button type="button" className="btn btn-primary">
+            <button type="button" className="btn btn-danger">
               <span className="btn-label">
                 <i className="bi bi-trash"></i>
-              </span>
-              Clear
+              </span>{" "}
+              Clear Expenses
             </button>
           )}
         </div>
