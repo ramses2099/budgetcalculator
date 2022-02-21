@@ -1,7 +1,18 @@
 import React from "react";
 
-const ExpenseItem = ({ expense, handleDelete, handleEdit }) => {
+const ExpenseItem = ({ expense, deleteExpenseItem, handleAlert }) => {
   const { id, charge, amount } = expense;
+
+  const handleEdit = (id) => {};
+  const handleDelete = (id) => {
+    deleteExpenseItem(id);
+    console.log(`delete item ${id}`);
+    handleAlert({
+      type: "danger",
+      text: "Item delete",
+    });
+  };
+
   return (
     <tr>
       <td>{charge}</td>

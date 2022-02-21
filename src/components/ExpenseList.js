@@ -1,7 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import ExpenseItem from "./ExpenseItem";
+import { ExpenseContext } from "./context/ExpenseContext";
 
-const ExpenseList = ({ expenses, handleDelete, handleEdit, clearItems }) => {
+const ExpenseList = ({ handleAlert }) => {
+  //state context
+  const { state, deleteExpenseItem, clearExpenseItem } =
+    useContext(ExpenseContext);
+  const expenses = state;
   return (
     <div>
       <div className="row">
@@ -19,8 +24,8 @@ const ExpenseList = ({ expenses, handleDelete, handleEdit, clearItems }) => {
                 <ExpenseItem
                   key={expense.id}
                   expense={expense}
-                  handleDelete={handleDelete}
-                  handleEdit={handleEdit}
+                  deleteExpenseItem={deleteExpenseItem}
+                  handleAlert={handleAlert}
                 />
               ))}
             </tbody>
@@ -33,7 +38,7 @@ const ExpenseList = ({ expenses, handleDelete, handleEdit, clearItems }) => {
             <button
               type="button"
               className="btn btn-danger"
-              onClick={clearItems}
+              onClick={() => clearExpenseItem()}
             >
               <span className="btn-label">
                 <i className="bi bi-trash"></i>

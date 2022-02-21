@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./App.scss";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import { v4 as uuid } from "uuid";
+//import { v4 as uuid } from "uuid";
 import ExpenseList from "./components/ExpenseList";
 import Alert from "./components/Alert";
 import ExpenseForm from "./components/ExpenseForm";
+import { Provider } from "./components/context/ExpenseContext";
 
 /*-
 const initialExpenses = [
@@ -13,19 +14,15 @@ const initialExpenses = [
   { id: uuid(), charge: "credit card bill", amount: 1300 },
 ];
 -*/
-
+/*-
 const initialExpenses = localStorage.getItem("expenses")
   ? JSON.parse(localStorage.getItem("expenses"))
   : [];
+-*/
 
 function App() {
   //********************** state vlues *********************************/
-  // all expenses, add expense
-  const [expenses, setExpenses] = useState(initialExpenses);
-  // charge state
-  const [charge, setCharge] = useState("");
-  // amount state
-  const [amount, setAmount] = useState("");
+
   // alert state
   const [alert, setAlert] = useState({
     show: false,
@@ -34,17 +31,21 @@ function App() {
   });
   // edit item
   const [edit, setEdit] = useState(false);
+  /*-
   // id
   const [id, setId] = useState(0);
   //useEffect
+  /*--
   useEffect(() => {
     console.log("we called useEffect");
     localStorage.setItem("expenses", JSON.stringify(expenses));
   }, [expenses]);
+--*/
 
   //********************** functionality *******************************/
 
   const total = () => {
+    /*--
     let t = expenses.reduce((acc, curr) => {
       return (acc += parseInt(curr.amount));
     }, 0);
@@ -52,16 +53,17 @@ function App() {
       style: "currency",
       currency: "USD",
     });
+    --*/
   };
 
   const handleCharge = (e) => {
     console.log(`charge: ${e.target.value}`);
-    setCharge(e.target.value);
+    //setCharge(e.target.value);
   };
 
   const handleAmount = (e) => {
     console.log(`amount: ${e.target.value}`);
-    setAmount(e.target.value);
+    //setAmount(e.target.value);
   };
 
   const handleAlert = ({ type, text }) => {
@@ -72,6 +74,7 @@ function App() {
   };
 
   const handleSubmit = (e) => {
+    /*--
     e.preventDefault();
     if (charge !== "" && amount > 0) {
       if (edit) {
@@ -97,10 +100,11 @@ function App() {
         text: "Charge can't be empty value and amount value has to be bigger tha zero",
       });
     }
+    --*/
   };
 
   const clearItems = () => {
-    setExpenses([]);
+    //setExpenses([]);
     console.log("clear items");
 
     handleAlert({
@@ -109,21 +113,9 @@ function App() {
     });
   };
 
-  const handleDelete = (id) => {
-    console.log(`delete item ${id}`);
-
-    let expes = expenses.filter((ex) => ex.id !== id);
-
-    setExpenses(expes);
-
-    handleAlert({
-      type: "danger",
-      text: "Item delete",
-    });
-  };
-
   const handleEdit = (id) => {
     console.log(`edit item ${id}`);
+    /*--
     const expense = expenses.find((item) => item.id === id);
 
     if (expense !== undefined) {
@@ -136,53 +128,44 @@ function App() {
       setEdit(true);
       setId(id);
     }
+    --*/
   };
 
   //********************** functionality *******************************/
   return (
     <>
-      <div className="container">
-        <div className="row">
-          <div className="col">
-            {alert.show && <Alert type={alert.type} text={alert.text} />}
+      <Provider>
+        <div className="container">
+          <div className="row">
+            <div className="col">
+              {alert.show && <Alert type={alert.type} text={alert.text} />}
+            </div>
+          </div>
+          <div className="row">
+            <div className="col">
+              <h1 className="text-center">Buget Calculator</h1>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col">
+              <ExpenseForm edit={edit} handleAlert={handleAlert} />
+            </div>
+          </div>
+          <div className="row">
+            <div className="col">
+              <ExpenseList handleAlert={handleAlert} />
+            </div>
+          </div>
+          <div className="row">
+            <div className="col">
+              <h1 className="text-start">
+                Total spending:
+                <span className="badge bg-danger">{total()}</span>
+              </h1>
+            </div>
           </div>
         </div>
-        <div className="row">
-          <div className="col">
-            <h1 className="text-center">Buget Calculator</h1>
-          </div>
-        </div>
-        <div className="row">
-          <div className="col">
-            <ExpenseForm
-              charge={charge}
-              amount={amount}
-              handleAmount={handleAmount}
-              handleCharge={handleCharge}
-              handleSubmit={handleSubmit}
-              edit={edit}
-            />
-          </div>
-        </div>
-        <div className="row">
-          <div className="col">
-            <ExpenseList
-              expenses={expenses}
-              handleDelete={handleDelete}
-              handleEdit={handleEdit}
-              clearItems={clearItems}
-            />
-          </div>
-        </div>
-        <div className="row">
-          <div className="col">
-            <h1 className="text-start">
-              Total spending:
-              <span className="badge bg-danger">{total()}</span>
-            </h1>
-          </div>
-        </div>
-      </div>
+      </Provider>
     </>
   );
 }
