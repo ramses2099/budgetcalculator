@@ -6,6 +6,7 @@ const ExpenseForm = ({
   handleAmount,
   handleCharge,
   handleSubmit,
+  edit,
 }) => {
   return (
     <div>
@@ -40,11 +41,14 @@ const ExpenseForm = ({
         </div>
         <div className="row mt-2">
           <div className="col text-center">
-            <button type="submit" className="btn btn-primary">
+            <button
+              type="submit"
+              className={edit ? "btn btn-danger" : "btn btn-primary"}
+            >
               <span className="btn-label">
                 <i className="bi bi-send"></i>
               </span>{" "}
-              Submit
+              {edit ? "Edit" : "Submit"}
             </button>
           </div>
         </div>
