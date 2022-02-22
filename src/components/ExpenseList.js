@@ -2,9 +2,9 @@ import React, { useContext } from "react";
 import ExpenseItem from "./ExpenseItem";
 import { ExpenseContext } from "./context/ExpenseContext";
 
-const ExpenseList = ({ handleAlert }) => {
+const ExpenseList = ({ handleAlert, setCharge, setAmount, setEdit, setId }) => {
   //state context
-  const { state, deleteExpenseItem, clearExpenseItem } =
+  const { state, deleteExpenseItem, clearExpenseItem, totalAmountExpenseItem } =
     useContext(ExpenseContext);
   const expenses = state;
   return (
@@ -26,6 +26,10 @@ const ExpenseList = ({ handleAlert }) => {
                   expense={expense}
                   deleteExpenseItem={deleteExpenseItem}
                   handleAlert={handleAlert}
+                  setCharge={setCharge}
+                  setAmount={setAmount}
+                  setEdit={setEdit}
+                  setId={setId}
                 />
               ))}
             </tbody>
@@ -46,6 +50,14 @@ const ExpenseList = ({ handleAlert }) => {
               Clear Expenses
             </button>
           )}
+        </div>
+      </div>
+      <div className="row py-4">
+        <div className="col">
+          <h1 className="text-start">
+            Total spending:{totalAmountExpenseItem()}
+            <span className="badge bg-danger"></span>
+          </h1>
         </div>
       </div>
     </div>

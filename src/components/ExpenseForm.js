@@ -1,18 +1,46 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { ExpenseContext } from "./context/ExpenseContext";
 
-const ExpenseForm = ({ edit, handleAlert }) => {
-  const { addExpenseItem } = useContext(ExpenseContext);
-  // charge state
-  const [charge, setCharge] = useState("");
-  // amount state
-  const [amount, setAmount] = useState("");
+const ExpenseForm = ({
+  charge,
+  amount,
+  edit,
+  setEdit,
+  id,
+  handleAlert,
+  setCharge,
+  setAmount,
+}) => {
+  const { state, addExpenseItem, editExpenseItem } = useContext(ExpenseContext);
+
   // fuction handler
   const onClick = (e) => {
-    addExpenseItem({ charge, amount });
-    setCharge("");
-    setAmount("");
-    handleAlert({ type: "success", text: "Item add" });
+    if (charge !== "" && amount > 0) {
+      if (edit) {
+        const newState = state.map((item) => {
+          return item.id === id
+            ? { id: item.id, charge: charge, amount: parseInt(amount) }
+            : item;
+        });
+
+        editExpenseItem(newState);
+
+        setEdit(false);
+
+        handleAlert({ type: "success", text: "Item Edited" });
+      } else {
+        addExpenseItem({ charge, amount });
+
+        handleAlert({ type: "success", text: "Item add" });
+      }
+      setCharge("");
+      setAmount("");
+    } else {
+      handleAlert({
+        type: "danger",
+        text: "Charge can't be empty value and amount value has to be bigger tha zero",
+      });
+    }
   };
 
   return (

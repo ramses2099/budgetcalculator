@@ -10,9 +10,8 @@ const ExpenseReducer = (state, action) => {
       return [...state, newExpense];
     }
     case actions.EDIT_EXPENSE_ITEM: {
-      const { charge, amount } = action.payload;
-      const newExpense = { id: uuid(), charge, amount: parseInt(amount) };
-      return [...state, newExpense];
+      const newState = action.payload;
+      return newState;
     }
     case actions.DELETE_EXPENSE_ITEM: {
       const { id } = action.payload;

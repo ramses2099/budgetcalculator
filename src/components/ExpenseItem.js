@@ -1,9 +1,22 @@
 import React from "react";
 
-const ExpenseItem = ({ expense, deleteExpenseItem, handleAlert }) => {
+const ExpenseItem = ({
+  expense,
+  deleteExpenseItem,
+  handleAlert,
+  setCharge,
+  setAmount,
+  setEdit,
+  setId,
+}) => {
   const { id, charge, amount } = expense;
 
-  const handleEdit = (id) => {};
+  const handleEdit = (id) => {
+    setCharge(charge);
+    setAmount(amount);
+    setEdit(true);
+    setId(id);
+  };
   const handleDelete = (id) => {
     deleteExpenseItem(id);
     console.log(`delete item ${id}`);

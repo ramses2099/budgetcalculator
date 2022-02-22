@@ -24,14 +24,23 @@ const Provider = ({ children }) => {
     },
     editExpenseItem: (expense) => {
       dispatch({
-        type: actions.ADD_EXPENSE_ITEM,
-        payload: { id: uuid(), charge: expense.charge, amount: expense.amount },
+        type: actions.EDIT_EXPENSE_ITEM,
+        payload: expense,
       });
     },
     deleteExpenseItem: (id) => {
       dispatch({
         type: actions.DELETE_EXPENSE_ITEM,
         payload: { id: id },
+      });
+    },
+    totalAmountExpenseItem: () => {
+      let t = state.reduce((acc, curr) => {
+        return (acc += parseInt(curr.amount));
+      }, 0);
+      return t.toLocaleString("en-US", {
+        style: "currency",
+        currency: "USD",
       });
     },
     clearExpenseItem: () => {
